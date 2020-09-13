@@ -53,7 +53,7 @@ namespace SpcDebug
 			new OpCode { Name = "ShiftImmediate16AddressLeft", Type = InstructionType.Absolute },		// 0c
 			new OpCode { Name = "PushFlagsToStack", Type = InstructionType.Stack },																// 0d
 			new OpCode { Name = "TestAndSetBits", Type = InstructionType.Absolute },																// 0e
-			new OpCode { Name = "", Type = InstructionType.Absolute },
+			new OpCode { Name = "Break", Type = InstructionType.Stack },																				// 0f
 			new OpCode { Name = "BranchToRelative8IfNotNegative", Type = InstructionType.Relative },		// 10
 			new OpCode { Name = "CallSystemFunction1", Type = InstructionType.Stack },															// 11
 			new OpCode { Name = "ClearImmediate8AddressBit0", Type = InstructionType.Immediate },										// 12
@@ -68,8 +68,8 @@ namespace SpcDebug
 			new OpCode { Name = "ShiftImmediate8PlusXAddressLeft", Type = InstructionType.DirectPlusXIndex },		// 1b
 			new OpCode { Name = "ShiftALeft", Type = InstructionType.Stack },		// 1c
 			new OpCode { Name = "DecrementX", Type = InstructionType.Stack },		// 1d
-			new OpCode { Name = "CompareXToImmediate16Address", Type = InstructionType.Absolute },		// 1E
-			new OpCode { Name = "JumpToImmediate16Pointer", Type = InstructionType.Absolute },		// 1f
+			new OpCode { Name = "CompareXToImmediate16Address", Type = InstructionType.Absolute },		// 1e
+			new OpCode { Name = "JumpToImmediate16PlusXPointer", Type = InstructionType.Absolute },			// 1f
 			new OpCode { Name = "ClearDirectPage", Type = InstructionType.Stack },
 			new OpCode { Name = "CallSystemFunction2", Type = InstructionType.Stack },															// 21
 			new OpCode { Name = "SetImmediate8AddressBit1", Type = InstructionType.Direct },											// 22
@@ -80,7 +80,7 @@ namespace SpcDebug
 			new OpCode { Name = "AndAWithImmediate8PlusXPointer", Type = InstructionType.Direct },		// 27
 			new OpCode { Name = "AndAWithImmediate8", Type = InstructionType.Immediate },		// 28
 			new OpCode { Name = "AndImmediate8AddressWithImmediate8Address", Type = InstructionType.ImmediateToDirect },		// 29
-			new OpCode { Name = "", Type = InstructionType.Absolute },
+			new OpCode { Name = "OrImmediate8AddressBit", Type = InstructionType.Absolute },		// 2a
 			new OpCode { Name = "RollImmediate8AddressLeft", Type = InstructionType.Direct },		// 2b
 			new OpCode { Name = "RollImmediate16AddressLeft", Type = InstructionType.Absolute },		// 2c
 			new OpCode { Name = "PushAToStack", Type = InstructionType.Stack },																			// 2d
@@ -98,17 +98,17 @@ namespace SpcDebug
 			new OpCode { Name = "AndXAddressWithYAddress", Type = InstructionType.Absolute },		// 39
 			new OpCode { Name = "IncrementImmediate8Address16", Type = InstructionType.Direct },		// 3a
 			new OpCode { Name = "RollImmediate8PlusXAddressLeft", Type = InstructionType.Absolute },		// 3b
-			new OpCode { Name = "RollALeft", Type = InstructionType.Absolute },		// 3c
+			new OpCode { Name = "RollALeft", Type = InstructionType.Stack },		// 3c
 			new OpCode { Name = "IncrementX", Type = InstructionType.Stack },		// 3d
 			new OpCode { Name = "CompareXToImmediate8Address", Type = InstructionType.Direct },		// 3E
-			new OpCode { Name = "CallImmediate16", Type = InstructionType.Absolute },
+			new OpCode { Name = "CallImmediate16", Type = InstructionType.Absolute },							// 3F
 			new OpCode { Name = "", Type = InstructionType.Absolute },
 			new OpCode { Name = "CallSystemFunction4", Type = InstructionType.Stack },															// 41
 			new OpCode { Name = "SetImmediate8AddressBit2", Type = InstructionType.Direct },											// 42
 			new OpCode { Name = "BranchToRelative8IfImmediate8AddressBit7Set", Type = InstructionType.ImmediateToDirect },			// 43
 			new OpCode { Name = "ExclusiveOrAWithImmediate8Address", Type = InstructionType.Direct },		// 44
 			new OpCode { Name = "ExclusiveOrAWithImmediate16Address", Type = InstructionType.Absolute },		// 45
-			new OpCode { Name = "ExclusiveOrAWithXAddress", Type = InstructionType.Absolute },		// 46
+			new OpCode { Name = "ExclusiveOrAWithXAddress", Type = InstructionType.Stack },		// 46
 			new OpCode { Name = "ExclusiveOrAWithImmediate8PlusXPointer", Type = InstructionType.Absolute },		// 47
 			new OpCode { Name = "ExclusiveOrAWithImmediate8", Type = InstructionType.Immediate },		// 48
 			new OpCode { Name = "ExclusiveOrImmediate8AddressWithImmediate8Address", Type = InstructionType.DirectToDirect },		// 49
@@ -139,7 +139,7 @@ namespace SpcDebug
 			new OpCode { Name = "SetImmediate8AddressBit3", Type = InstructionType.Direct },											// 62
 			new OpCode { Name = "BranchToRelative8IfImmediate8AddressBit3Set", Type = InstructionType.ImmediateToDirect },			// 63
 			new OpCode { Name = "CompareAToImmediate8Address", Type = InstructionType.Direct },		// 64
-			new OpCode { Name = "", Type = InstructionType.Absolute },
+			new OpCode { Name = "CompareAToImmediate16Address", Type = InstructionType.Absolute },	// 65
 			new OpCode { Name = "CompareAToXAddress", Type = InstructionType.Absolute },		// 66
 			new OpCode { Name = "CompareAToImmediate8PlusXPointer", Type = InstructionType.Absolute },		// 67
 			new OpCode { Name = "CompareAToImmediate8", Type = InstructionType.Immediate },		// 68
@@ -165,7 +165,7 @@ namespace SpcDebug
 			new OpCode { Name = "RollARight", Type = InstructionType.Stack },		// 7c
 			new OpCode { Name = "CopyXToA", Type = InstructionType.Stack },		// 7d
 			new OpCode { Name = "CompareYToImmediate8Address", Type = InstructionType.Direct },		// 7E
-			new OpCode { Name = "", Type = InstructionType.Absolute },
+			new OpCode { Name = "ReturnFromInterrupt", Type = InstructionType.Stack },															// 7F
 			new OpCode { Name = "SetCarryFlag", Type = InstructionType.Stack },																		// 80
 			new OpCode { Name = "CallSystemFunction8", Type = InstructionType.Stack },															// 81
 			new OpCode { Name = "SetImmediate8AddressBit4", Type = InstructionType.Direct },											// 82
@@ -228,7 +228,7 @@ namespace SpcDebug
 			new OpCode { Name = "IncrementImmediate8PlusXAddress", Type = InstructionType.DirectPlusXIndex },		// bb
 			new OpCode { Name = "IncrementA", Type = InstructionType.Stack },		// bc
 			new OpCode { Name = "CopyXToSP", Type = InstructionType.Stack },		// bd
-			new OpCode { Name = "DecimalAdjustAForSubtraction", Type = InstructionType.Absolute },		// be
+			new OpCode { Name = "DecimalAdjustAForSubtraction", Type = InstructionType.Stack },			// be
 			new OpCode { Name = "CopyXAddressToAAndIncrementX", Type = InstructionType.Stack },		// bf
 			new OpCode { Name = "", Type = InstructionType.Absolute },
 			new OpCode { Name = "", Type = InstructionType.Absolute },
@@ -273,7 +273,7 @@ namespace SpcDebug
 			new OpCode { Name = "CopyImmediate8PlusXPointerToA", Type = InstructionType.Immediate },		// e7
 			new OpCode { Name = "CopyImmediate8ToA", Type = InstructionType.Immediate },		// e8
 			new OpCode { Name = "CopyImmediate16AddressToX", Type = InstructionType.Absolute },		// e9
-			new OpCode { Name = "", Type = InstructionType.Absolute },
+			new OpCode { Name = "ToggleImmediate8AddressBit", Type = InstructionType.Absolute },		// ea
 			new OpCode { Name = "CopyImmediate8AddressToY", Type = InstructionType.Direct },		// eb
 			new OpCode { Name = "CopyImmediate16AddressToY", Type = InstructionType.Absolute },		// ec
 			new OpCode { Name = "ToggleCarryFlag", Type = InstructionType.Stack },										// ed

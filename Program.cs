@@ -38,8 +38,16 @@ namespace SpcDebug
 						break;
 				}
 
-				if (reader.OpCode == 0x6F)
-					Console.WriteLine();
+				switch (reader.OpCode)
+				{
+					case 0x1F:
+					case 0x2F:
+					case 0x5F:
+					case 0x6F:
+					case 0x7F:
+						Console.WriteLine();
+						break;
+				}
 			}
 		}
 	}
