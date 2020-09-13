@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "SpcDebug": {
+      "commandName": "Executable",
+      "executablePath": "C:\\Users\\joshu\\source\\repos\\SpcDebug\\SpcDebug\\bin\\Debug\\netcoreapp3.1\\SpcDebug.bat"
+    }
+  }
+}
