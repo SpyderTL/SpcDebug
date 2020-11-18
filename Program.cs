@@ -17,15 +17,82 @@ namespace SpcDebug
 
 			var apu = new AudioProcessingUnit();
 
-			var data = File.ReadAllBytes(Arguments.Path);
+			//var data = File.ReadAllBytes(Arguments.Path);
 
-			Array.Copy(data, 0, apu.Ram.Data, 0x400, data.Length);
+			var data = File.ReadAllBytes(@"C:\Users\joshu\source\Workspaces\StarFoxBrowser\StarFoxBrowser\Resources\StarFoxUsa10.bin");
+
+			Array.Copy(data, 0x0c0004, apu.Ram.Data, 0x3ee8, 24);
+			Array.Copy(data, 0x0c0020, apu.Ram.Data, 0x0400, 10239);
+			Array.Copy(data, 0x0c2823, apu.Ram.Data, 0x3e20, 155);
 
 			using var stream = new MemoryStream(apu.Ram.Data);
 			var reader = new SpcReader { Stream = stream };
 
-			branches.Enqueue(0x400);
-			labels.Add(0x400);
+			branches.Enqueue(0x0400);
+			labels.Add(0x0400);
+
+			branches.Enqueue(0x09c9);
+			labels.Add(0x09c9);
+
+			branches.Enqueue(0x09d9);
+			labels.Add(0x09d9);
+
+			branches.Enqueue(0x09ff);
+			labels.Add(0x09ff);
+
+			branches.Enqueue(0x0a11);
+			labels.Add(0x0a11);
+
+			branches.Enqueue(0x0a14);
+			labels.Add(0x0a14);
+
+			branches.Enqueue(0x0a23);
+			labels.Add(0x0a23);
+
+			branches.Enqueue(0x0a2f);
+			labels.Add(0x0a2f);
+
+			branches.Enqueue(0x0a60);
+			labels.Add(0x0a60);
+
+			branches.Enqueue(0x0a69);
+			labels.Add(0x0a69);
+
+			branches.Enqueue(0x0a91);
+			labels.Add(0x0a91);
+
+			branches.Enqueue(0x09c9);
+			labels.Add(0x09c9);
+
+			branches.Enqueue(0x0a32);
+			labels.Add(0x0a32);
+
+			branches.Enqueue(0x0a36);
+			labels.Add(0x0a36);
+
+			branches.Enqueue(0x0a59);
+			labels.Add(0x0a59);
+
+			branches.Enqueue(0x0a82);
+			labels.Add(0x0a82);
+
+			branches.Enqueue(0x0ab4);
+			labels.Add(0x0ab4);
+
+			branches.Enqueue(0x0aeb);
+			labels.Add(0x0aeb);
+
+			branches.Enqueue(0x0af2);
+			labels.Add(0x0af2);
+
+			branches.Enqueue(0x0aca);
+			labels.Add(0x0aca);
+
+			branches.Enqueue(0x0b5d);
+			labels.Add(0x0b5d);
+
+			branches.Enqueue(0x0b5a);
+			labels.Add(0x0b5a);
 
 			while (branches.Any())
 			{
@@ -69,18 +136,21 @@ namespace SpcDebug
 					{
 						case Spc.InstructionType.DirectToDirect:
 						case Spc.InstructionType.ImmediateToDirect:
-							//Console.WriteLine(reader.Offset.ToString("X4") + " " + Spc.OpCodes[reader.OpCode].Name + " " + (reader.Value.Value & 0xff).ToString("X2") + ", " + ((reader.Value.Value >> 8) & 0xff).ToString("X2"));
-							Console.WriteLine("\t" + Spc.OpCodes[reader.OpCode].Name + " " + (reader.Value.Value & 0xff).ToString("X2") + ", " + ((reader.Value.Value >> 8) & 0xff).ToString("X2"));
+							Console.WriteLine(reader.Offset.ToString("X4") + " " + Spc.OpCodes[reader.OpCode].Name + " " + (reader.Value.Value & 0xff).ToString("X2") + ", " + ((reader.Value.Value >> 8) & 0xff).ToString("X2"));
+							//Console.WriteLine("\t" + Spc.OpCodes[reader.OpCode].Name + " " + (reader.Value.Value & 0xff).ToString("X2") + ", " + ((reader.Value.Value >> 8) & 0xff).ToString("X2"));
+							//Console.WriteLine("\t" + reader.OpCode.ToString("X2") + " " + Spc.OpCodes[reader.OpCode].Name + " " + (reader.Value.Value & 0xff).ToString("X2") + ", " + ((reader.Value.Value >> 8) & 0xff).ToString("X2"));
 							break;
 
 						case Spc.InstructionType.Relative:
-							//Console.WriteLine(reader.Offset.ToString("X4") + " " + Spc.OpCodes[reader.OpCode].Name + " " + (stream.Position + (sbyte)reader.Value.Value).ToString("X4"));
-							Console.WriteLine("\t" + Spc.OpCodes[reader.OpCode].Name + " " + (stream.Position + (sbyte)reader.Value.Value).ToString("X4"));
+							Console.WriteLine(reader.Offset.ToString("X4") + " " + Spc.OpCodes[reader.OpCode].Name + " " + (stream.Position + (sbyte)reader.Value.Value).ToString("X4"));
+							//Console.WriteLine("\t" + Spc.OpCodes[reader.OpCode].Name + " " + (stream.Position + reader.Value.Value).ToString("X4"));
+							//Console.WriteLine("\t" + reader.OpCode.ToString("X2") + " " + Spc.OpCodes[reader.OpCode].Name + " " + (stream.Position + (sbyte)reader.Value.Value).ToString("X4"));
 							break;
 
 						default:
-							//Console.WriteLine(reader.Offset.ToString("X4") + " " + Spc.OpCodes[reader.OpCode].Name + (reader.Value.HasValue ? " " + reader.Value.Value.ToString("X4") : string.Empty));
-							Console.WriteLine("\t" + Spc.OpCodes[reader.OpCode].Name + (reader.Value.HasValue ? " " + reader.Value.Value.ToString("X4") : string.Empty));
+							Console.WriteLine(reader.Offset.ToString("X4") + " " + Spc.OpCodes[reader.OpCode].Name + (reader.Value.HasValue ? " " + reader.Value.Value.ToString("X4") : string.Empty));
+							//Console.WriteLine("\t" + Spc.OpCodes[reader.OpCode].Name + (reader.Value.HasValue ? " " + reader.Value.Value.ToString("X4") : string.Empty));
+							//Console.WriteLine("\t" + reader.OpCode.ToString("X2") + " " + Spc.OpCodes[reader.OpCode].Name + (reader.Value.HasValue ? " " + reader.Value.Value.ToString("X4") : string.Empty));
 							break;
 					}
 				}
@@ -98,9 +168,13 @@ namespace SpcDebug
 				switch (reader.OpCode)
 				{
 					case 0x1F:
-					case 0x2F:
 					case 0x6F:
 					case 0x7F:
+						exit = reader.Offset;
+						break;
+
+					case 0x2F:
+						branches.Add(reader.Value.Value + reader.Stream.Position);
 						exit = reader.Offset;
 						break;
 
@@ -123,7 +197,7 @@ namespace SpcDebug
 					case 0xd0:
 					case 0xf0:
 					case 0xfe:
-						branches.Add((sbyte)reader.Value.Value + reader.Stream.Position);
+						branches.Add(reader.Value.Value + reader.Stream.Position);
 						break;
 
 					case 0x03:

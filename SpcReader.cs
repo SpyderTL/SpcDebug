@@ -33,11 +33,11 @@ namespace SpcDebug
 					Value = Stream.ReadByte() | (Stream.ReadByte() << 8);
 					break;
 
-				case Spc.InstructionType.AbsoluteXIndex:
+				case Spc.InstructionType.AbsolutePlusX:
 					Value = Stream.ReadByte() | (Stream.ReadByte() << 8);
 					break;
 
-				case Spc.InstructionType.AbsoluteYIndex:
+				case Spc.InstructionType.AbsolutePlusY:
 					Value = Stream.ReadByte() | (Stream.ReadByte() << 8);
 					break;
 
@@ -46,7 +46,7 @@ namespace SpcDebug
 					break;
 
 				case Spc.InstructionType.Relative:
-					Value = Stream.ReadByte();
+					Value = (sbyte)Stream.ReadByte();
 					break;
 
 				case Spc.InstructionType.DirectBitwise:
@@ -57,11 +57,15 @@ namespace SpcDebug
 					Value = Stream.ReadByte() | (Stream.ReadByte() << 8);
 					break;
 
-				case Spc.InstructionType.DirectPlusXIndexPointer:
+				case Spc.InstructionType.DirectBitwiseImmediate:
+					Value = Stream.ReadByte() | (Stream.ReadByte() << 8);
+					break;
+
+				case Spc.InstructionType.DirectPlusXPointer:
 					Value = Stream.ReadByte();
 					break;
 
-				case Spc.InstructionType.DirectPointerPlusYIndex:
+				case Spc.InstructionType.DirectPointerPlusY:
 					Value = Stream.ReadByte();
 					break;
 
@@ -69,11 +73,11 @@ namespace SpcDebug
 					Value = Stream.ReadByte() | (Stream.ReadByte() << 8);
 					break;
 
-				case Spc.InstructionType.DirectPlusXIndex:
+				case Spc.InstructionType.DirectPlusX:
 					Value = Stream.ReadByte();
 					break;
 
-				case Spc.InstructionType.DirectPlusYIndex:
+				case Spc.InstructionType.DirectPlusY:
 					Value = Stream.ReadByte();
 					break;
 
