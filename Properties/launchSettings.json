@@ -1,8 +1,8 @@
 {
   "profiles": {
     "SpcDebug": {
-      "commandName": "Executable",
-      "executablePath": "C:\\Users\\joshu\\source\\repos\\SpcDebug\\SpcDebug\\bin\\Debug\\netcoreapp3.1\\SpcDebug.bat"
+      "commandName": "Project",
+      "commandLineArgs": "\"C:\\Users\\joshu\\source\\repos\\VortexReader\\VortexReader\\bin\\Debug\\net5.0\\Apu\\Apu.dat\""
     }
   }
 }
